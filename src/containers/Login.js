@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import axios from "axios";
@@ -30,6 +30,7 @@ const Login = (props) => {
         return setErrorMessage("Missing password");
       }
       setErrorMessage("");
+
       const data = { email, password };
       const response = await axios.post(
         "https://vinted-hysteria9.herokuapp.com/user/login",
@@ -38,10 +39,9 @@ const Login = (props) => {
       if (response.data) {
         const token = response.data.token;
         //console.log(token);
-        handleLogin(token);
         const username = response.data.account.username;
         setUsernameMain(username);
-
+        handleLogin(token);
         history.push("/");
       } else {
         alert("L'utilisateur ne possède pas de compte ");

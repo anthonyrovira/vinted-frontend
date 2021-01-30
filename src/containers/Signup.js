@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import axios from "axios";
@@ -11,7 +11,7 @@ const Signup = (props) => {
   const [password, setPassword] = useState("");
   const [newsletter, setNewsletter] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  //const [submitted, setSubmitted] = useState(false);
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -29,7 +29,7 @@ const Signup = (props) => {
     setNewsletter(!newsletter);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
@@ -44,43 +44,28 @@ const Signup = (props) => {
       }
       //console.log({ email, username, password, newsletter });
       setErrorMessage("");
-      setSubmitted(true);
+
+      const data = { email, username, password, newsletter };
+      const response = await axios.post(
+        "https://vinted-hysteria9.herokuapp.com/user/signup",
+        data
+      );
+      if (response.data) {
+        const token = response.data.token;
+        //console.log(token);
+        setUsernameMain(username);
+        handleLogin(token);
+        history.push("/");
+      } else {
+        console.log("no token returned");
+      }
     } catch (error) {
+      setErrorMessage("Authentification error");
       console.log(errorMessage, error);
     }
   };
 
   //https://vinted-hysteria9.herokuapp.com/user/signup
-
-  useEffect(() => {
-    if (submitted) {
-      const fetchData = async () => {
-        try {
-          const data = { email, username, password, newsletter };
-          const response = await axios.post(
-            "https://vinted-hysteria9.herokuapp.com/user/signup",
-            data
-          );
-          if (response.data) {
-            const token = response.data.token;
-            console.log(token);
-            handleLogin(token);
-
-            setUsernameMain(username);
-
-            history.push("/");
-          } else {
-            console.log("no token returned");
-          }
-        } catch (error) {
-          alert("L'utilisateur n'a pas pu être inscrit");
-          console.log(error);
-        }
-      };
-
-      fetchData();
-    }
-  }, [submitted]);
 
   return (
     <div className="wrapper">
