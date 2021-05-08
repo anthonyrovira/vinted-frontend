@@ -1,5 +1,5 @@
 import React from "react";
-import hero from "../assets/hero.jpeg";
+//import hero from "../assets/hero.jpeg";
 import forme from "../assets/forme.svg";
 import { Link } from "react-router-dom";
 
