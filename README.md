@@ -15,10 +15,10 @@ git clone https://github.com/anthonyrovira/vinted-frontend
 
 Install dependencies:
 ```
-yarn
+npm install
 ```
 
 Then, run it :
 ```
-yarn start
+npm start
 ```
