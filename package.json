@@ -44,5 +44,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "immer": "9.0.6",
+    "set-value": "4.0.1"
   }
 }
